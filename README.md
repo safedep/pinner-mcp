@@ -4,7 +4,7 @@ A Model Context Protocol (MCP) server that can help pin GitHub Actions to a spec
 
 ![Pinner MCP](./docs/assets/demo.png)
 
-## Usage
+## 📦 Usage
 
 Run as a container with `stdio` transport.
 
@@ -31,7 +31,17 @@ the MCP server in the settings. Learn more [here](https://docs.cursor.com/contex
 }
 ```
 
-## References
+### 🔄 Updates
+
+Updates are automatically pushed to the `latest` tag on
+[GitHub Container Registry](https://github.com/safedep/pinner-mcp/pkgs/container/pinner-mcp). You
+must manually update your local container image to the latest version.
+
+```bash
+docker pull ghcr.io/safedep/pinner-mcp:latest
+```
+
+## 📚 References
 
 - Originally built to protect [vet](https://github.com/safedep/vet) from malicious GitHub Actions
 - [mcp-go](https://github.com/mark3labs/mcp-go) is a great library for building MCP servers
