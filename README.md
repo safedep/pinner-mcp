@@ -12,7 +12,8 @@ Run as a container with `stdio` transport.
 docker run -it --rm ghcr.io/safedep/pinner-mcp:latest
 ```
 
-If you are using Cursor, you can add the following to your `.cursor/mcp.json` file.
+If you are using Cursor, you can add the following to your `.cursor/mcp.json` file. You must *enable*
+the MCP server in the settings. Learn more [here](https://docs.cursor.com/context/model-context-protocol#what-is-mcp).
 
 ```json
 {
@@ -30,4 +31,8 @@ If you are using Cursor, you can add the following to your `.cursor/mcp.json` fi
 }
 ```
 
+## References
 
+- Originally built to protect [vet](https://github.com/safedep/vet) from malicious GitHub Actions
+- [mcp-go](https://github.com/mark3labs/mcp-go) is a great library for building MCP servers
+- Built and maintained by [SafeDep Engineering](https://safedep.io)
