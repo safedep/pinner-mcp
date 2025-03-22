@@ -30,7 +30,7 @@ the MCP server in the settings. Learn more [here](https://docs.cursor.com/contex
         "run",
         "--rm",
         "-i",
-        "safedep/pinner-mcp:latest"
+        "ghcr.io/safedep/pinner-mcp:latest"
       ]
     }
   }
