@@ -40,16 +40,22 @@ the MCP server in the settings. Learn more [here](https://docs.cursor.com/contex
 Use a Composer prompt like the following to pin a specific commit hash.
 
 ```
-Pin GitHub Actions to their commit hash.
+Pin GitHub Actions to their commit hash
 ```
 
 ```
-Pin container base images to digests.
+Pin container base images to digests
 ```
 
-### 🔄 Updates
+To update pinned versions, you can use a prompt like the following.
 
-Updates are automatically pushed to the `latest` tag on
+```
+Update pinned versions of container base images
+```
+
+### 🔄 Tool Updates
+
+Updates for the MCP server are automatically pushed to the `latest` tag on
 [GitHub Container Registry](https://github.com/safedep/pinner-mcp/pkgs/container/pinner-mcp). You
 must manually update your local container image to the latest version.
 
