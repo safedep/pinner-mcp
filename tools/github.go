@@ -71,7 +71,7 @@ func RegisterGithubTool(srv *server.MCPServer) error {
 	}
 
 	resolveRefToShaTool := mcp.NewTool("github_resolve_ref_to_sha",
-		mcp.WithDescription("Resolve a Github reference such as a branch or tag to a commit SHA"),
+		mcp.WithDescription("Resolve a Github reference such as a branch or tag to a commit SHA. Used to pin GitHub Actions to a specific commit hash."),
 		mcp.WithString("owner",
 			mcp.Required(),
 			mcp.Description("The owner of the repository"),
@@ -87,7 +87,7 @@ func RegisterGithubTool(srv *server.MCPServer) error {
 	)
 
 	getLatestPinnedVersionTool := mcp.NewTool("github_get_latest_pinned_version",
-		mcp.WithDescription("Get the latest pinned version for a given repository"),
+		mcp.WithDescription("Get the latest pinned version for a given repository. Used to update pinned GitHub Actions"),
 		mcp.WithString("owner",
 			mcp.Required(),
 			mcp.Description("The owner of the repository"),

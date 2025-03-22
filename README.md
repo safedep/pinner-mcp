@@ -1,6 +1,10 @@
 # Pinner MCP 📍
 
-A Model Context Protocol (MCP) server that can help pin GitHub Actions to a specific commit hash.
+A Model Context Protocol (MCP) server that can help pin 3rd party dependencies to immutable digests.
+Supported dependency types include:
+
+- Docker base images
+- GitHub Actions
 
 ![Pinner MCP](./docs/assets/demo.png)
 
@@ -12,7 +16,9 @@ Run as a container with `stdio` transport.
 docker run -it --rm ghcr.io/safedep/pinner-mcp:latest
 ```
 
-If you are using Cursor, you can add the following to your `.cursor/mcp.json` file. You must *enable*
+### 💻 Cursor
+
+Add the following to your `.cursor/mcp.json` file. You must *enable*
 the MCP server in the settings. Learn more [here](https://docs.cursor.com/context/model-context-protocol#what-is-mcp).
 
 ```json
@@ -29,6 +35,16 @@ the MCP server in the settings. Learn more [here](https://docs.cursor.com/contex
     }
   }
 }
+```
+
+Use a Composer prompt like the following to pin a specific commit hash.
+
+```
+Pin GitHub Actions to their commit hash.
+```
+
+```
+Pin container base images to digests.
 ```
 
 ### 🔄 Updates

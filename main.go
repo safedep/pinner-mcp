@@ -13,6 +13,10 @@ func registerTools(srv *server.MCPServer) error {
 		return fmt.Errorf("failed to register github tool: %w", err)
 	}
 
+	if err := tools.RegisterDockerTool(srv); err != nil {
+		return fmt.Errorf("failed to register docker tool: %w", err)
+	}
+
 	return nil
 }
 
