@@ -6,7 +6,7 @@
         "run",
         "--rm",
         "-i",
-        "safedep/pinner-mcp:latest"
+        "ghcr.io/safedep/pinner-mcp:latest"
       ]
     }
   }
