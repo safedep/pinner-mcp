@@ -1,0 +1,18 @@
+{
+  "go.toolsManagement.checkForUpdates": "local",
+  "go.useLanguageServer": true,
+  "go.lintOnSave": "package",
+  "go.formatTool": "gofumpt",
+  "go.lintTool": "golangci-lint",
+  "go.testFlags": ["-v"],
+  "go.buildFlags": ["-v"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  }
+}

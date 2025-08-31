@@ -16,6 +16,43 @@ Run as a container with `stdio` transport.
 docker run -it --rm ghcr.io/safedep/pinner-mcp:latest
 ```
 
+### 💻 VS Code
+
+Add the following to your `.vscode/mcp.json` file in your workspace. You must have the GitHub Copilot extension installed and enabled.
+
+```json
+{
+  "servers": {
+    "pinner-mcp": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "ghcr.io/safedep/pinner-mcp:latest"
+      ]
+    }
+  }
+}
+```
+
+Use GitHub Copilot Chat with prompts like:
+
+```
+Pin GitHub Actions to their commit hash
+```
+
+```
+Pin container base images to digests
+```
+
+To update pinned versions, you can use a prompt like the following:
+
+```
+Update pinned versions of container base images
+```
+
 ### 💻 Cursor
 
 Add the following to your `.cursor/mcp.json` file. You must *enable*

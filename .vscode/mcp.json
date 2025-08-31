@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
-    "pinner-mcp-stdio-server": {
+  "servers": {
+    "pinner-mcp": {
+      "type": "stdio",
       "command": "docker",
       "args": [
         "run",
