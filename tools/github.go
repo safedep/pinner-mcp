@@ -3,6 +3,7 @@ package tools
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -35,7 +36,7 @@ func (p *githubToolProvider) ResolveRefToSha(ctx context.Context, request mcp.Ca
 		return nil, fmt.Errorf("failed to get commit: %w", err)
 	}
 
-	return mcp.NewToolResultText(commit.GetSHA()), nil
+	return mcp.NewToolResultText(fmt.Sprintf("%s %s", ref, commit.GetSHA())), nil
 }
 
 // GetLatestPinnedVersion returns the latest pinned version for a given repository.
@@ -61,7 +62,37 @@ func (p *githubToolProvider) GetLatestPinnedVersion(ctx context.Context, request
 		return nil, fmt.Errorf("failed to get commit: %w", err)
 	}
 
-	return mcp.NewToolResultText(commit.GetSHA()), nil
+	return mcp.NewToolResultText(fmt.Sprintf("%s %s", latestRelease.GetTagName(), commit.GetSHA())), nil
+}
+
+// GetVersions returns the latest versions (releases) for a given repository.
+func (p *githubToolProvider) GetVersions(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+	owner, ok := request.Params.Arguments["owner"].(string)
+	if !ok {
+		return nil, fmt.Errorf("owner must be a string")
+	}
+
+	repo, ok := request.Params.Arguments["repo"].(string)
+	if !ok {
+		return nil, fmt.Errorf("repo must be a string")
+	}
+
+	releases, _, err := p.client.Client.Repositories.ListReleases(ctx, owner, repo, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list releases: %w", err)
+	}
+
+	var versions []string
+	for _, release := range releases {
+		if release.GetTagName() != "" {
+			versions = append(versions, release.GetTagName())
+		}
+		if len(versions) >= 10 { // Limit to 10
+			break
+		}
+	}
+
+	return mcp.NewToolResultText(strings.Join(versions, "\n")), nil
 }
 
 func RegisterGithubTool(srv *server.MCPServer) error {
@@ -71,7 +102,7 @@ func RegisterGithubTool(srv *server.MCPServer) error {
 	}
 
 	resolveRefToShaTool := mcp.NewTool("github_resolve_ref_to_sha",
-		mcp.WithDescription("Resolve a Github reference such as a branch or tag to a commit SHA. Used to pin GitHub Actions to a specific commit hash."),
+		mcp.WithDescription("Resolve a Github reference such as a branch or tag to a commit SHA. Returns the ref and SHA for pinning GitHub Actions."),
 		mcp.WithString("owner",
 			mcp.Required(),
 			mcp.Description("The owner of the repository"),
@@ -87,7 +118,19 @@ func RegisterGithubTool(srv *server.MCPServer) error {
 	)
 
 	getLatestPinnedVersionTool := mcp.NewTool("github_get_latest_pinned_version",
-		mcp.WithDescription("Get the latest pinned version for a given repository. Used to update pinned GitHub Actions"),
+		mcp.WithDescription("Get the latest pinned version and its tag for a given repository. Used to update pinned GitHub Actions"),
+		mcp.WithString("owner",
+			mcp.Required(),
+			mcp.Description("The owner of the repository"),
+		),
+		mcp.WithString("repo",
+			mcp.Required(),
+			mcp.Description("The name of the repository"),
+		),
+	)
+
+	getVersionsTool := mcp.NewTool("github_get_versions",
+		mcp.WithDescription("List the latest versions (releases) for a given repository. Used to check available updates for GitHub Actions"),
 		mcp.WithString("owner",
 			mcp.Required(),
 			mcp.Description("The owner of the repository"),
@@ -102,6 +145,7 @@ func RegisterGithubTool(srv *server.MCPServer) error {
 
 	srv.AddTool(resolveRefToShaTool, toolProvider.ResolveRefToSha)
 	srv.AddTool(getLatestPinnedVersionTool, toolProvider.GetLatestPinnedVersion)
+	srv.AddTool(getVersionsTool, toolProvider.GetVersions)
 
 	return nil
 }
